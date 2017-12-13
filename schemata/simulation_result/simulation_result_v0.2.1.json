@@ -1,0 +1,75 @@
+{
+  "Result": {
+    "required": [
+      "result_id",
+      "data"
+    ],
+    "properties": {
+      "result_id": {
+        "type": "string",
+        "format": "uuid",
+        "example": "123e4567-e89b-42d3-a456-426655440000",
+        "pattern": "^/^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i$"
+      },
+      "description": {
+        "type": "string",
+        "example": "AES Prognose 2014-01-01-00:00-23:45"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/TimeSeries"
+        }
+      }
+    }
+  },
+  "TimeSeries": {
+    "type": "object",
+    "required": [
+      "unit",
+      "data",
+      "label"
+    ],
+    "properties": {
+      "unit": {
+        "type": "string",
+        "example": "kg.m.s-2",
+        "description": "see https://www.modelica.org/documents/ModelicaSpec34.pdf Chapter 19"
+      },
+      "label": {
+        "type": "string",
+        "description": "label of time series",
+        "maxLength": 20
+      },
+      "description": {
+        "type": "string",
+        "description": "further description of result"
+      },
+      "data": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/TimeSeriesItem"
+        }
+      }
+    }
+  },
+  "TimeSeriesItem": {
+    "type": "object",
+    "required": [
+      "timestamp",
+      "value"
+    ],
+    "properties": {
+      "timestamp": {
+        "type": "string",
+        "format": "date-time",
+        "example": "2014-07-16T19:20:30.45Z"
+      },
+      "value": {
+        "type": "number",
+        "format": "double"
+      }
+    }
+  }
+}
