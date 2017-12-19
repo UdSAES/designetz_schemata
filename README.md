@@ -1,5 +1,7 @@
-# Schemata for Data Exchange within Designetz
-In this repository, the formats for exchanging data between services within Designetz are defined. Mockup data and guidelines on using this repository are given in addition to the actual schemata definitions, which are defined according to the [OpenAPI specification (OAS)](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
+# Schemata for Data Exchange Between Services
+In this repository, the formats for exchanging data _between services_ within Designetz are defined. Mock-up data and guidelines on using this repository are given in addition to the actual schemata definitions, which are defined according to the [OpenAPI specification (OAS)](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md).
+
+![](https://github.com/UdSAES/designetz_schemata/blob/master/resources/logos_uds_aes_designetz_bmwi.png)
 
 __You currently checked out the master branch, which contains the released versions of the schemata that are intended to be used in production.__
 
