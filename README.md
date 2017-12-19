@@ -50,7 +50,7 @@ Each schema "lives" in a subdirectory of `schemata/`. Inside this directory, the
 ### Branches
 There are four persistent branches:
 ```
-master // the released versions of the schemata
+master     // the released versions of the schemata
 next.patch // the candidate for the next PATCH version
 next.minor // the candidate for the next MINOR version
 next.major // the candidate for the next MAJOR version
