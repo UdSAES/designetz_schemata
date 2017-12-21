@@ -1,0 +1,80 @@
+{
+  "forecastResult": {
+    "type": "object",
+    "required": [
+      "result_id",
+      "data"
+    ],
+    "properties": {
+      "result_id": {
+        "type": "string",
+        "example": "123e4567-e89b-42d3-a456-426655440000",
+        "pattern": "^/^[0-9a-f]{8}-[0-9a-f]{4}-[4][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}/i$"
+      },
+      "description": {
+        "type": "string",
+        "example": "Forecast UdS AES 2014-01-01 00:00--23:45"
+      },
+      "data": {
+        "type": "array",
+        "items": {
+          "$ref": "#/timeSeries"
+        }
+      }
+    }
+  },
+  "timeSeries": {
+    "type": "object",
+    "required": [
+      "unit",
+      "data",
+      "label"
+    ],
+    "properties": {
+      "key": {
+        "type": "integer",
+        "format": "int64",
+        "description": "Identifier of the variable for inputs in the FMU. MUST be given for input time series."
+      },
+      "unit": {
+        "type": "string",
+        "example": "kg.m.s-2",
+        "description": "Unit of the data, formatted as defined in the [Modelica Specification v3.4](https://www.modelica.org/documents/ModelicaSpec34.pdf), Chapter 19."
+      },
+      "label": {
+        "type": "string",
+        "description": "Label of the time series.",
+        "maxLength": 20
+      },
+      "description": {
+        "type": "string",
+        "description": "More detailed description of the time series."
+      },
+      "data": {
+        "type": "array",
+        "minItems": 1,
+        "items": {
+          "$ref": "#/timeSeriesItem"
+        }
+      }
+    }
+  },
+  "timeSeriesItem": {
+    "type": "object",
+    "required": [
+      "timestamp",
+      "value"
+    ],
+    "properties": {
+      "timestamp": {
+        "type": "string",
+        "format": "date-time",
+        "example": "2014-07-16T19:20:30.45Z"
+      },
+      "value": {
+        "type": "number",
+        "format": "double"
+      }
+    }
+  }
+}
