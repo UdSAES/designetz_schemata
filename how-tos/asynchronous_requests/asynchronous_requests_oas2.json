@@ -1,0 +1,120 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Handling Asynchronous Requests in Designetz",
+        "description": "This document describes a possible solution for dealing with asynchronous requests. It is suggested to use this method in _all_ services that are developed and used within the Designetz-project.\n\nAs an example, consider the following scenario: the creation of a new forecast for a solar power plant is known to take some time (minutes, possibly hours). Thus, just waiting for the response to a `POST`-request to the endpoint `/forecasts/solar-power` would most likely result in a timeout for the service consumer.\n\nIn order to avoid this, the server immediately responds to the request by sending a `202 Accepted` with a link to a resource exposing the current status (of the creation of the forecast). The client then polls this resource until it receives a `303 See Other` with the link to the resource that exposes the initially requested forecast.\n\n![Sequence diagram](https://github.com/UdSAES/designetz_schemata/raw/master/resources/asynchronous_requests_uml_sequence.png)\n\nConsequently, service developers have to take care of two scenarios:\n\n1. __Processing a request received on a certain endpoint could take a long time due to some long-running background job.__ In this case, the server must _always_ process the request using the mechanism described above, even if it could be possible to respond immediately from time to time.\n\n2. __When processing a request, another endpoint, which requires polling, is called.__ Again, the server must _always_ process the request using the mechanism described above.\n\nReferences:\n* [Farazgadi, Victor (2014): REST and long-running jobs. Personal blog.](https://farazdagi.com/2014/rest-and-long-running-jobs/)\n* [Schreier, Silvia (no date): Long Running Operation with Polling. RESTalk-patterns.org](http://restalk-patterns.org/long-running-operation-polling.html)",
+        "contact": {
+            "name": "UdS AES",
+            "email": "moritz.stueber@aut.uni-saarland.de"
+        },
+        "license": {
+            "name": "The MIT License",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/forecasts/solar-power": {
+            "post": {
+                "tags": ["asynchronous"],
+                "summary": "Creates a resource (requires the execution a long-running background job)",
+                "parameters": [
+                    {
+                        "name": "parameters_resource",
+                        "in": "body",
+                        "description": "The information necessary to create the desired resource",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Indication that the request has been accepted for processing, but the processing has not been completed ([RFC7231, section 6.3.3](https://tools.ietf.org/html/rfc7231#section-6.3.3))",
+                        "headers": {
+                            "Location": {
+                                "description": "Referral to a specific resource in relation to the response ([RFC7231, section 7.1.2](https://tools.ietf.org/html/rfc7231#section-7.1.2)), namely the resource to be polled until the long-running background job has finished",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/forecasts/solar-power/{uuid}": {
+            "get": {
+                "tags": ["synchronous"],
+                "summary": "The resource that provides the results of a long-running background job",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "The ID identifying the initially requested resource",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A representation of the resource providing the results of a long-running background job",
+                        "schema": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "/queue/{uuid}": {
+            "get": {
+                "tags": ["synchronous"],
+                "summary": "A resource indicating the status of the long-running background job",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "An ID identifying an item in the processing queue",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An acknowledgement that the poll has been processed successfully, but the background job is still running",
+                        "schema": {
+                            "type": "object",
+                            "required": [
+                                "status"
+                            ],
+                            "properties": {
+                                "status": {
+                                    "type": "string",
+                                    "enum": [ "WAITING", "RUNNING" ],
+                                    "description": "The status of the background job, for example 'RUNNING'"
+                                }
+                            }
+                        }
+                    },
+                    "303": {
+                        "description": "referral to the initially requested resource that is now available ([RFC7231, section 6.4.4](https://tools.ietf.org/html/rfc7231#section-6.4.4))",
+                        "headers": {
+                            "Location": {
+                                "description": "Referral to a specific resource in relation to the response ([RFC7231, section 7.1.2](https://tools.ietf.org/html/rfc7231#section-7.1.2)), namely the resource initially requested",
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "synchronous",
+            "description": "Requests that can be processed immediately, __not__ resulting in timeouts"
+        },
+        {
+            "name": "asynchronous",
+            "description": "Requests that can __not__ be processed immediately, likely resulting in timeouts"
+        }
+    ]
+}
