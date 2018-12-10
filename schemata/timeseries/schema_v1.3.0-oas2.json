@@ -26,10 +26,13 @@
             "timestamp": {
               "type": "integer",
               "format": "int64",
-              "description": "The timestamp (as [unix timestamp](https://en.wikipedia.org/wiki/Unix_time) in ms resolution) of the timeseries to which the value refers to"
+              "minimum": 0,
+              "description": "The timestamp (as [unix timestamp](https://en.wikipedia.org/wiki/Unix_time) in ms resolution) of the timeseries to which the value refers to",
+              "example": 1526551590000
             },
             "value": {
               "type": "number",
+              "format": "double",
               "description": "The value of the timeseries at the timestamp (unit as specified above)"
             }
           }
