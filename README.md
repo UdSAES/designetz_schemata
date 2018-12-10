@@ -3,7 +3,7 @@ In this repository, the formats for exchanging data _between services_ within De
 
 ![](https://github.com/UdSAES/designetz_schemata/blob/master/resources/logos_uds_aes_designetz_bmwi.png)
 
-__You currently checked out the master branch, which contains the released versions of the schemata that are intended to be used in production.__
+__You currently checked out the branch `dev`, which is used for working on new releases. Schemata that only exist on this branch are not stable yet!.__
 
 ## Why this Repository?
 The specification of the format and content of messages exchanged when interacting with a service constitute an important part of the service description. In order to avoid duplicate work, ensure consistency/interoperability and follow the evolution of the respective specifications with confidence, the possibility to split an OpenAPI-description across several files shall be leveraged.
@@ -53,18 +53,15 @@ Each schema "lives" in a subdirectory of `schemata/`. Inside this directory, the
 There are four persistent branches:
 ```
 master     // the released versions of the schemata
-next.patch // the candidate for the next PATCH version
-next.minor // the candidate for the next MINOR version
-next.major // the candidate for the next MAJOR version
+dev        // the branch to be used for working on additions/changes
 ```
-Changes to the schemata are integrated into the next_\*-branches, depending on what effect the change has on backwards compatibility (semantic versioning). When a new version shall be released, it will be merged into the master branch by the maintainer of the repository using a pull request. It is not possible to push commits to the master branch directly.
+Changes to the schemata are integrated into the `dev`-branch. When a new version shall be released, it will be merged into the master branch by the maintainer of the repository using a pull request. It is not possible to push commits to the master branch directly.
 
 ### Contributing Using Issues and Pull Requests
 If you want to discuss something, open an issue on GitHub. If you want to discuss something _and_ provide a solution, do the following:
-1. Determine whether the change will result in a new _patch_, _minor_ or _major_ version.
-2. Check out the corresponding branch and then create a new branch for your changes.
-3. Implement a first suggestion of your changes.
-4. Open a pull request from your branch into the corresponding development branch.
+1. Check out the `dev`-branch, and then create a new branch for your changes.
+2. Implement a first suggestion of your changes.
+3. Open a pull request from your branch into the development branch.
 
 ## Further Information
 * All files in this repository are placed under the MIT license.
