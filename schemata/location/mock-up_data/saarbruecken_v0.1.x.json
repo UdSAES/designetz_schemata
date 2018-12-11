@@ -1,0 +1,14 @@
+{
+    "latitude": {
+        "unit": "deg",
+        "value": 49.2553
+    },
+    "longitude": {
+        "unit": "deg",
+        "value": 7.0405
+    },
+    "elevation": {
+        "unit": "m",
+        "value": 273
+    }
+}
