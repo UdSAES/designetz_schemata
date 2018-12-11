@@ -3,7 +3,7 @@ In this repository, the formats for exchanging data _between services_ within De
 
 ![](https://github.com/UdSAES/designetz_schemata/blob/master/resources/logos_uds_aes_designetz_bmwi.png)
 
-__You currently checked out the branch `dev`, which is used for working on new releases. Schemata that only exist on this branch are not stable yet!.__
+__You currently checked out the branch `dev`, which is used for working on new releases. Schemata that only exist on this branch are not stable yet!__
 
 ## Why this Repository?
 The specification of the format and content of messages exchanged when interacting with a service constitute an important part of the service description. In order to avoid duplicate work, ensure consistency/interoperability and follow the evolution of the respective specifications with confidence, the possibility to split an OpenAPI-description across several files shall be leveraged.
@@ -50,7 +50,7 @@ Several measures for ensuring that this repository can become a reliable and rob
 Each schema "lives" in a subdirectory of `schemata/`. Inside this directory, there MUST exist at least one version of the schema named `schema_vX.Y.Z-oasN.json` where `X.Y.Z` represent the version number and `N` is either `2` or `3`, depending on the version of the OAS used. Additionally, there SHOULD exist a subdirectory `./mock-up_data/` holding examples of messages that match the respective schema. Each example MUST indicate the version(s) it refers to, for example `global_irradiance_v0.2.x.json`. If possible, the schema should be explained comprehensively directly within the OAS/.json-file. A separate `README.md` may be used to provide additional information, such as a revision history.
 
 ### Branches
-There are four persistent branches:
+There are two persistent branches:
 ```
 master     // the released versions of the schemata
 dev        // the branch to be used for working on additions/changes
